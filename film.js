@@ -6,6 +6,8 @@ const film = filmy.find(f => f.id === id);
 
 const filmContainer = document.querySelector('#detail-filmu') || document.body;
 
+const player = document.querySelector('#prehravac');
+
 if (!film) {
 	filmContainer.innerHTML = `Stránka nenalezena`;
 } else {
@@ -75,14 +77,55 @@ if (!film) {
 			}
 			if (!checked && termsCheckbox) {
 				termsCheckbox.classList.add('is-invalid');
-				termsCheckbox.focus();
+				messageInput.focus();
 			}
 			if (!text && messageInput) {
 				messageInput.classList.add('is-invalid');
 				messageInput.focus();
 			}
-
 		}
 		noteForm.addEventListener('submit', onSubmit);
+	}
+}
+
+if (player) {
+	const playBtn = player.querySelector('.play');
+	const pauseBtn = player.querySelector('.pause');
+	const video = player.querySelector('video');
+	const currentTimeEl = player.querySelector('.current-time');
+	const controls = player.querySelector('.player-controls');
+
+	playBtn?.addEventListener('click', () => video?.play());
+	pauseBtn?.addEventListener('click', () => video?.pause());
+	video?.addEventListener('playing', () => player.classList.add('playing'));
+	video?.addEventListener('pause', () => player.classList.remove('playing'));
+	video?.addEventListener('timeupdate', (e) => {
+		const time = Math.round(e?.target.currentTime || 0);
+		const minutes = Math.floor(time / 60);
+		const seconds = time % 60;
+		if (currentTimeEl) {
+			currentTimeEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+		}
+	});
+	document.addEventListener('keyup', (event) => {
+		if (
+			video &&
+			event.code === 'Space' &&
+			event.target.tagName !== 'TEXTAREA' &&
+			event.target.tagName !== 'INPUT' &&
+			event.target.tagName !== 'BUTTON'
+		  ) {
+			video.paused ? video.play() : video.pause();
+		  }
+	});
+	if (controls) {
+		let timeoutId = null;
+		const displayControlsHandler = () => {
+			controls.classList.remove('hidden');
+			clearTimeout(timeoutId);
+			timeoutId = setTimeout(() => controls.classList.add('hidden'), 3000);
+		}
+		document.addEventListener('keyup', displayControlsHandler);
+		document.addEventListener('mousemove', displayControlsHandler);
 	}
 }
