@@ -3,11 +3,11 @@ const menu = document.querySelector('#menu-polozky');
 if (menuBtn && menu) {
     const menuIcon = menuBtn.querySelector('i');
     menuBtn.addEventListener('click', () => {
-        menu.classList.toggle('show');
+        const shown = menu.classList.toggle('show');
         if (!menuIcon) {
             return;
         }
-        menuIcon.classList.toggle('fa-xmark');
-        menuIcon.classList.toggle('fa-bars');
+        menuIcon.classList.toggle('fa-xmark', shown);
+        menuIcon.classList.toggle('fa-bars', !shown);
     })
 }
