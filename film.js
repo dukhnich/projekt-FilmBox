@@ -37,4 +37,24 @@ if (!film) {
 			Premiéra <strong>${dayjs(film.premiera).format('D. M. YYYY')}</strong>, což je ${days < 0 ? ('před ' + daysAbs) : 'za ' + daysAbs} ${dayWord}.
 		`;
 	}
+	const stars = document.querySelectorAll('.fa-star');
+	let voteCount = 0;
+	const vote = (count) => {
+		stars.forEach((star, index) => {
+			if (index < count) {
+				star.classList.add('fas');
+			} else {
+				star.classList.remove('fas');
+			}
+		})
+	}
+	stars.forEach((star, index) => {
+		let count = Number(star.textContent)
+		star.addEventListener('click', () => {
+			voteCount = count;
+			vote(voteCount);
+		});
+		star.addEventListener('mouseenter', () => vote(count));
+		star.addEventListener('mouseleave', () => vote(voteCount));
+	})
 }
