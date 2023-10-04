@@ -23,4 +23,9 @@ if (!film) {
 	if (descriprion) {
 		descriprion.textContent = film.popis;
 	}
+	const premiera = filmContainer.querySelector('#premiera');
+	if (premiera) {
+		const days = dayjs(film.premiera).diff(dayjs(), 'days')
+		premiera.innerHTML = `Premiéra <strong>${dayjs(film.premiera).format('D. M. YYYY')}</strong>, což je ${days < 0 ? ('před ' + days * -1) : 'za ' + days} dní.`;
+	}
 }
