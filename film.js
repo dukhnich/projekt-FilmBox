@@ -9,7 +9,7 @@ const filmContainer = document.querySelector('#detail-filmu') || document.body;
 const player = document.querySelector('#prehravac');
 
 if (!film) {
-	filmContainer.innerHTML = `Stránka nenalezena`;
+	filmContainer.innerHTML = `<h1>Stránka nenalezena<h1>`;
 } else {
 	const img = filmContainer.querySelector('img');
 	if (img) {
