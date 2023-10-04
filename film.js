@@ -25,7 +25,16 @@ if (!film) {
 	}
 	const premiera = filmContainer.querySelector('#premiera');
 	if (premiera) {
-		const days = dayjs(film.premiera).diff(dayjs(), 'days')
-		premiera.innerHTML = `Premiéra <strong>${dayjs(film.premiera).format('D. M. YYYY')}</strong>, což je ${days < 0 ? ('před ' + days * -1) : 'za ' + days} dní.`;
+		const days = dayjs(film.premiera).diff(dayjs(), 'days');
+		const daysAbs = Math.abs(days);
+		let dayWord = 'dní';
+		if (daysAbs === 1) {
+			dayWord = 'den';
+		} else if (daysAbs > 1 && daysAbs < 5) {
+			dayWord = 'dny';
+		}
+		premiera.innerHTML = `
+			Premiéra <strong>${dayjs(film.premiera).format('D. M. YYYY')}</strong>, což je ${days < 0 ? ('před ' + daysAbs) : 'za ' + daysAbs} ${dayWord}.
+		`;
 	}
 }
