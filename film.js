@@ -57,4 +57,32 @@ if (!film) {
 		star.addEventListener('mouseenter', () => vote(count));
 		star.addEventListener('mouseleave', () => vote(voteCount));
 	})
+	const noteForm = filmContainer.querySelector('#note-form');
+	if (noteForm) {
+		const onSubmit = (e) => {
+			e.preventDefault();
+			const messageInput = document.querySelector('#message-input');
+			const termsCheckbox = document.querySelector('#terms-checkbox');
+			messageInput?.classList?.remove('is-invalid');
+			termsCheckbox?.classList?.remove('is-invalid');
+			const text = messageInput?.value;
+			const checked = termsCheckbox?.checked;
+			if (text && checked) {
+				noteForm.innerHTML = `
+					<p class="card-text">${text}</p>
+				`
+				return;
+			}
+			if (!checked && termsCheckbox) {
+				termsCheckbox.classList.add('is-invalid');
+				termsCheckbox.focus();
+			}
+			if (!text && messageInput) {
+				messageInput.classList.add('is-invalid');
+				messageInput.focus();
+			}
+
+		}
+		noteForm.addEventListener('submit', onSubmit);
+	}
 }
